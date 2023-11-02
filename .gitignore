@@ -1,0 +1,15 @@
+# Ignorar las carpetas bin y obj
+**/bin
+**/obj
+**.vs
+# Ignorar la carpeta packages
+**/packages
+
+# Ignorar los archivos generados por el IDE
+*.user
+*.suo
+*.[Cc]ache
+*.bak.ReSharper
+*.bak
+
+appsettings.json
