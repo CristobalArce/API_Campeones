@@ -48,6 +48,17 @@ namespace API_Campeones
             services.AddScoped<IDificultadesRepository, DificultadesRepository>();
             services.AddScoped<IRolesRepository, RolesRepository>();
             services.AddControllers();
+
+            //Agregando swagger
+            services.AddSwaggerGen( s =>
+            {
+                s.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = "API CAMPEONES",
+                    Version = "v1",
+                });
+                s.CustomSchemaIds( s => s.FullName );
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +78,12 @@ namespace API_Campeones
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/Swagger/v1/swagger.json", "API CAMPEONES");
             });
         }
     }
