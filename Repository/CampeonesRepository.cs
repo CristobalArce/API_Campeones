@@ -1,12 +1,13 @@
 ﻿using API_Campeones.ContextBD;
+using API_Campeones.Dto;
 using API_Campeones.Repository.Interface;
 using API_Campeones.Response;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static API_Campeones.Dto.Dto;
 using static API_Campeones.Response.CampeonesResponse;
 
 namespace API_Campeones.Repository
@@ -14,10 +15,12 @@ namespace API_Campeones.Repository
     public class CampeonesRepository : ICampeonesRepository
     {
         private readonly CampeonesContext _context;
+        private readonly IMapper _mapper;
 
-        public CampeonesRepository(CampeonesContext context)
+        public CampeonesRepository(CampeonesContext context, IMapper mapper)
         {
             this._context = context;
+            this._mapper = mapper;
         }
 
         async public Task<CampeonResponse> GetCampeon(int idCampeon)
@@ -186,16 +189,18 @@ namespace API_Campeones.Repository
                                    join dif in _context.Tbdificultad.AsQueryable()
                                        on camp.IdDificultad equals dif.IdDificultad
                                    where camp.IdCampeon == idCampeon
-                                   select new CampeonConRelacionesDto
+                                   select new Tbcampeon
                                    {
                                        IdCampeon = camp.IdCampeon,
                                        Nombre = camp.Nombre,
                                        Descripcion = camp.Descripcion,
-                                       Rol = r,
-                                       Dificultad = dif
+                                       IdRolNavigation = r,
+                                       IdDificultadNavigation = dif
                                    }).FirstOrDefaultAsync();
 
-                if( query == null)
+                var campeonDTO = _mapper.Map<Tbcampeon, CampeonDto>(query);
+
+                if ( query == null)
                 {
                     response.Estado = "OK";
                     response.Mensaje = "No se encontro ningun campeon";
@@ -206,10 +211,10 @@ namespace API_Campeones.Repository
                     response.Estado = "OK";
                     response.Mensaje = "Se obtuvieron los campeones detallado";
                     response.NumeroEstado = 0;
-                    response.CampeonDetallado = query;
+                    response.CampeonDetallado = campeonDTO;
                 }
 
-                response.CampeonDetallado = query;
+                response.CampeonDetallado = campeonDTO;
                 response.NumeroEstado = 0;
                 response.Mensaje = "Se obtuvo la informacion del campeon correctamente";
                 response.Estado = "OK";
@@ -235,14 +240,17 @@ namespace API_Campeones.Repository
                                        on camp.IdRol equals r.IdRol
                                    join dif in _context.Tbdificultad.AsQueryable()
                                        on camp.IdDificultad equals dif.IdDificultad
-                                   select new CampeonConRelacionesDto
+                                   select new Tbcampeon
                                    {
                                        IdCampeon = camp.IdCampeon,
                                        Nombre = camp.Nombre,
                                        Descripcion = camp.Descripcion,
-                                       Rol = r,
-                                       Dificultad = dif
+                                       IdRolNavigation= r,
+                                       IdDificultadNavigation = dif
                                    }).ToListAsync();
+
+                var campeonDTO = _mapper.Map<List<Tbcampeon>, List<CampeonDto>>(query);
+
                 if (query == null)
                 {
                     response.Estado = "OK";
@@ -254,7 +262,7 @@ namespace API_Campeones.Repository
                     response.Estado = "OK";
                     response.Mensaje = "Se obtuvieron los campeones detallado";
                     response.NumeroEstado = 0;
-                    response.ListaCampeones = query.ToList();
+                    response.ListaCampeones = campeonDTO;
                 }
                 
             }

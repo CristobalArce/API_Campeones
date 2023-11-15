@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using static API_Campeones.Dto.Dto;
 using static API_Campeones.Response.CampeonesResponse;
 
 namespace API_Campeones.Repository.Interface

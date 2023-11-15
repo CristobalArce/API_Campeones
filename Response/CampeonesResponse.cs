@@ -1,6 +1,6 @@
 ﻿using API_Campeones.ContextBD;
+using API_Campeones.Dto;
 using System.Collections.Generic;
-using static API_Campeones.Dto.Dto;
 
 namespace API_Campeones.Response
 {
@@ -18,11 +18,11 @@ namespace API_Campeones.Response
 
         public class ListaCampeonesDetalladosDTOResponse : GeneralResponse
         {
-            public List<CampeonConRelacionesDto> ListaCampeones { get; set; }
+            public List<CampeonDto> ListaCampeones { get; set; }
         }
         public class CampeonDetalladoDTOResponse : GeneralResponse
         {
-            public CampeonConRelacionesDto CampeonDetallado { get; set; }
+            public CampeonDto CampeonDetallado { get; set; }
         }
     }
 }

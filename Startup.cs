@@ -59,6 +59,9 @@ namespace API_Campeones
                 });
                 s.CustomSchemaIds( s => s.FullName );
             });
+
+            //AutoMapper
+            services.AddAutoMapper(typeof(CampeonesRepository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
