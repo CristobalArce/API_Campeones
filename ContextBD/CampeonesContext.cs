@@ -22,11 +22,13 @@ namespace API_Campeones.ContextBD
         public virtual DbSet<Tbcampeon> Tbcampeon { get; set; }
         public virtual DbSet<Tbdificultad> Tbdificultad { get; set; }
         public virtual DbSet<Tbrol> Tbrol { get; set; }
+        public virtual DbSet<Tbusuario> Tbusuario { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+
             }
         }
 
@@ -91,6 +93,29 @@ namespace API_Campeones.ContextBD
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(20)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Tbusuario>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("TBUsuario");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasColumnName("email")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdUsuario)
+                    .HasColumnName("idUsuario")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnName("nombre")
+                    .HasMaxLength(50)
                     .IsUnicode(false);
             });
 

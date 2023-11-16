@@ -1,5 +1,6 @@
 ﻿using API_Campeones.ContextBD;
 using API_Campeones.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -8,6 +9,7 @@ namespace API_Campeones.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DificultadesController : ControllerBase
     {
         private readonly IDificultadesRepository _dificultadesRepository;
